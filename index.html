@@ -500,7 +500,27 @@
                 id="search"
                 placeholder="🔍 Search..."
                 oninput="displayRecords()">
+<select
+    class="search"
+    id="skillFilter"
+    onchange="displayRecords()">
 
+    <option value="">
+        All Skill Sets
+    </option>
+
+    <option value="EF1">EF1</option>
+    <option value="EF2">EF2</option>
+    <option value="XF">XF</option>
+    <option value="WELDING">WELDING</option>
+    <option value="AUTOMATION">AUTOMATION</option>
+    <option value="MF1">MF1</option>
+    <option value="MF2">MF2</option>
+    <option value="CNC">CNC</option>
+    <option value="ICT">ICT</option>
+    <option value="TF">TF</option>
+
+</select>
         </div>
 
 
@@ -776,70 +796,72 @@ function displayRecords() {
         .value
         .toLowerCase()
         .trim();
+    
+const filteredRecords =
+    records.filter(record => {
+
+        const matchesSearch =
+            record.name
+                .toLowerCase()
+                .includes(search)
+
+            ||
+
+            record.skillSet
+                .toLowerCase()
+                .includes(search)
+
+            ||
+
+            record.topic
+                .toLowerCase()
+                .includes(search)
+
+            ||
+
+            record.activity
+                .toLowerCase()
+                .includes(search);
 
 
-    table.innerHTML = "";
+        const matchesSkill =
+            skillFilter === "" ||
+            record.skillSet === skillFilter;
 
 
-    const filteredRecords =
-        records.filter(record => {
+        return (
+            matchesSearch &&
+            matchesSkill
+        );
 
-            return (
+    });
+    
+if (
+    filteredRecords.length === 0
+) {
 
-                record.name
-                    .toLowerCase()
-                    .includes(search)
+       table.innerHTML = `
 
-                ||
+    <tr>
+    
+            <td
 
-                record.skillSet
-                    .toLowerCase()
-                    .includes(search)
+                colspan="10"
+                class="empty">
 
-                ||
+                No records found.
 
-                record.topic
-                    .toLowerCase()
-                    .includes(search)
+            </td>
 
-                ||
+        </tr>
 
-                record.activity
-                    .toLowerCase()
-                    .includes(search)
+    `;
 
-            );
+    updateDashboard();
 
-        });
+    return;
 
-
-    if (
-        filteredRecords.length === 0
-    ) {
-
-        table.innerHTML = `
-
-            <tr>
-
-                <td
-                    colspan="10"
-                    class="empty">
-
-                    No records found.
-
-                </td>
-
-            </tr>
-
-        `;
-
-
-        updateDashboard();
-
-        return;
-
-    }
-
+}
 
     filteredRecords.forEach(
         (record, index) => {
