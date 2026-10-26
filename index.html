@@ -796,6 +796,11 @@ function displayRecords() {
         .value
         .toLowerCase()
         .trim();
+
+    const skillFilter =
+    document.getElementById(
+        "skillFilter"
+    ).value;
     
 const filteredRecords =
     records.filter(record => {
