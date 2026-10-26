@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Public Speaking Tracker</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f1f5f9;
+            color: #172033;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0f172a, #1e3a8a);
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        header h1 {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .container {
+            width: 94%;
+            max-width: 1200px;
+            margin: 25px auto;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 14px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .card h3 {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .number {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .form-section,
+        .table-section {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.08);
+
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #1e3a8a;
+            margin-bottom: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 7px;
+            font-size: 14px;
+        }
+
+        input,
+        select {
+            padding: 12px;
+
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #2563eb;
+        }
+
+        .button-area {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            border: none;
+            padding: 11px 17px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .add-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .add-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .clear-btn {
+            background: #e2e8f0;
+            color: #172033;
+        }
+
+        .table-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search {
+            padding: 11px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            min-width: 260px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1100px;
+        }
+
+        th {
+            background: #1e3a8a;
+            color: white;
+            padding: 13px;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        td {
+            padding: 13px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .ongoing {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .overdue {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .edit-btn {
+            background: #f59e0b;
+            color: white;
+            margin-right: 5px;
+        }
+
+        .delete-btn {
+            background: #dc2626;
+            color: white;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 30px;
+            color: #64748b;
+        }
+
+        @media (max-width: 800px) {
+
+            .dashboard {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 500px) {
+
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                width: 92%;
+            }
+
+            .form-section,
+            .table-section {
+                padding: 18px;
+            }
+
+            .search {
+                width: 100%;
+                min-width: 0;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <h1>🗣️ Public Speaking Tracker</h1>
+
+    <p>
+        Public Speaking Monitoring System
+    </p>
+
+</header>
+
+
+<div class="container">
+
+
+    <!-- DASHBOARD -->
+
+    <div class="dashboard">
+
+        <div class="card">
+
+            <h3>Total Records</h3>
+
+            <div
+                class="number"
+                id="totalRecords">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Pending</h3>
+
+            <div
+                class="number"
+                id="pendingRecords">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Ongoing</h3>
+
+            <div
+                class="number"
+                id="ongoingRecords">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Overdue</h3>
+
+            <div
+                class="number"
+                id="overdueRecords">
+                0
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ADD RECORD -->
+
+    <section class="form-section">
+
+        <h2>
+            ➕ Add Public Speaking Record
+        </h2>
+
+
+        <div class="form-grid">
+
+
+            <div class="form-group">
+
+                <label>
+                    NAME
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Enter trainee name">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    SKILL SET
+                </label>
+
+                <select id="skillSet">
+
+                    <option value="">
+                        Select Skill Set
+                    </option>
+
+                    <option value="EF1">EF1</option>
+                    <option value="EF2">EF2</option>
+                    <option value="XF">XF</option>
+                    <option value="WELDING">WELDING</option>
+                    <option value="AUTOMATION">AUTOMATION</option>
+                    <option value="MF1">MF1</option>
+                    <option value="MF2">MF2</option>
+                    <option value="CNC">CNC</option>
+                    <option value="ICT">ICT</option>
+                    <option value="TF">TF</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    TOPIC
+                </label>
+
+                <input
+                    type="text"
+                    id="topic"
+                    placeholder="Enter speaking topic">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    ACTIVITY
+                </label>
+
+                <input
+                    type="text"
+                    id="activity"
+                    placeholder="Example: Presentation">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    START DATE
+                </label>
+
+                <input
+                    type="date"
+                    id="startDate">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    DAYS
+                </label>
+
+                <input
+                    type="number"
+                    id="days"
+                    min="1"
+                    placeholder="Example: 7">
+
+            </div>
+
+
+        </div>
+
+
+        <div class="button-area">
+
+            <button
+                class="add-btn"
+                onclick="saveRecord()">
+
+                ➕ Add Record
+
+            </button>
+
+
+            <button
+                class="clear-btn"
+                onclick="clearForm()">
+
+                Clear
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- RECORDS -->
+
+    <section class="table-section">
+
+
+        <div class="table-top">
+
+            <h2>
+                📋 Public Speaking Records
+            </h2>
+
+
+            <input
+                class="search"
+                type="text"
+                id="search"
+                placeholder="🔍 Search..."
+                oninput="displayRecords()">
+
+        </div>
+
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>#</th>
+                        <th>NAME</th>
+                        <th>SKILL SET</th>
+                        <th>TOPIC</th>
+                        <th>ACTIVITY</th>
+                        <th>START DATE</th>
+                        <th>DAYS</th>
+                        <th>REMAINING DAYS</th>
+                        <th>STATUS</th>
+                        <th>ACTION</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="recordTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+</div>
+
+
+<script>
+
+let records =
+    JSON.parse(
+        localStorage.getItem(
+            "publicSpeakingRecords"
+        )
+    ) || [];
+
+
+let editingId = null;
+
+
+/* SAVE DATA */
+
+function saveData() {
+
+    localStorage.setItem(
+        "publicSpeakingRecords",
+        JSON.stringify(records)
+    );
+
+}
+
+
+/* SAVE RECORD */
+
+function saveRecord() {
+
+    const name =
+        document.getElementById("name")
+        .value.trim();
+
+
+    const skillSet =
+        document.getElementById("skillSet")
+        .value;
+
+
+    const topic =
+        document.getElementById("topic")
+        .value.trim();
+
+
+    const activity =
+        document.getElementById("activity")
+        .value.trim();
+
+
+    const startDate =
+        document.getElementById("startDate")
+        .value;
+
+
+    const days =
+        parseInt(
+            document.getElementById("days")
+            .value
+        );
+
+
+    if (
+        !name ||
+        !skillSet ||
+        !topic ||
+        !activity ||
+        !startDate ||
+        !days ||
+        days < 1
+    ) {
+
+        alert(
+            "Please complete all fields."
+        );
+
+        return;
+
+    }
+
+
+    /* EDIT */
+
+    if (editingId !== null) {
+
+        const record =
+            records.find(
+                r => r.id === editingId
+            );
+
+
+        if (record) {
+
+            record.name = name;
+
+            record.skillSet =
+                skillSet;
+
+            record.topic =
+                topic;
+
+            record.activity =
+                activity;
+
+            record.startDate =
+                startDate;
+
+            record.days =
+                days;
+
+        }
+
+
+        editingId = null;
+
+    }
+
+
+    /* ADD */
+
+    else {
+
+        records.push({
+
+            id: Date.now(),
+
+            name: name,
+
+            skillSet: skillSet,
+
+            topic: topic,
+
+            activity: activity,
+
+            startDate: startDate,
+
+            days: days
+
+        });
+
+    }
+
+
+    saveData();
+
+    clearForm();
+
+    displayRecords();
+
+}
+
+
+/* REMAINING DAYS */
+
+function getRemainingDays(record) {
+
+    const start =
+        new Date(
+            record.startDate +
+            "T00:00:00"
+        );
+
+
+    const deadline =
+        new Date(start);
+
+
+    deadline.setDate(
+        deadline.getDate() +
+        record.days
+    );
+
+
+    const today =
+        new Date();
+
+
+    today.setHours(
+        0,
+        0,
+        0,
+        0
+    );
+
+
+    const difference =
+        deadline.getTime() -
+        today.getTime();
+
+
+    return Math.ceil(
+        difference /
+        (1000 * 60 * 60 * 24)
+    );
+
+}
+
+
+/* STATUS */
+
+function getStatus(record) {
+
+    const remaining =
+        getRemainingDays(record);
+
+
+    if (remaining < 0) {
+
+        return "Overdue";
+
+    }
+
+
+    return "Ongoing";
+
+}
+
+
+/* DISPLAY */
+
+function displayRecords() {
+
+    const table =
+        document.getElementById(
+            "recordTable"
+        );
+
+
+    const search =
+        document.getElementById(
+            "search"
+        )
+        .value
+        .toLowerCase()
+        .trim();
+
+
+    table.innerHTML = "";
+
+
+    const filteredRecords =
+        records.filter(record => {
+
+            return (
+
+                record.name
+                    .toLowerCase()
+                    .includes(search)
+
+                ||
+
+                record.skillSet
+                    .toLowerCase()
+                    .includes(search)
+
+                ||
+
+                record.topic
+                    .toLowerCase()
+                    .includes(search)
+
+                ||
+
+                record.activity
+                    .toLowerCase()
+                    .includes(search)
+
+            );
+
+        });
+
+
+    if (
+        filteredRecords.length === 0
+    ) {
+
+        table.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="10"
+                    class="empty">
+
+                    No records found.
+
+                </td>
+
+            </tr>
+
+        `;
+
+
+        updateDashboard();
+
+        return;
+
+    }
+
+
+    filteredRecords.forEach(
+        (record, index) => {
+
+
+        const remaining =
+            getRemainingDays(record);
+
+
+        const status =
+            getStatus(record);
+
+
+        let remainingText;
+
+
+        if (remaining < 0) {
+
+            remainingText =
+                Math.abs(remaining) +
+                " days overdue";
+
+        }
+
+        else if (remaining === 0) {
+
+            remainingText =
+                "Due today";
+
+        }
+
+        else {
+
+            remainingText =
+                remaining +
+                " days";
+
+        }
+
+
+        table.innerHTML += `
+
+            <tr>
+
+                <td>
+                    ${index + 1}
+                </td>
+
+                <td>
+                    <strong>
+                        ${record.name}
+                    </strong>
+                </td>
+
+                <td>
+                    ${record.skillSet}
+                </td>
+
+                <td>
+                    ${record.topic}
+                </td>
+
+                <td>
+                    ${record.activity}
+                </td>
+
+                <td>
+                    ${record.startDate}
+                </td>
+
+                <td>
+                    ${record.days}
+                </td>
+
+                <td>
+                    ${remainingText}
+                </td>
+
+                <td>
+
+                    <span
+                        class="status
+                        ${status.toLowerCase()}">
+
+                        ${status}
+
+                    </span>
+
+                </td>
+
+                <td>
+
+                    <button
+                        class="edit-btn"
+                        onclick="
+                        editRecord(
+                            ${record.id}
+                        )">
+
+                        Edit
+
+                    </button>
+
+
+                    <button
+                        class="delete-btn"
+                        onclick="
+                        deleteRecord(
+                            ${record.id}
+                        )">
+
+                        Delete
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    updateDashboard();
+
+}
+
+
+/* EDIT */
+
+function editRecord(id) {
+
+    const record =
+        records.find(
+            r => r.id === id
+        );
+
+
+    if (!record) {
+        return;
+    }
+
+
+    document.getElementById(
+        "name"
+    ).value = record.name;
+
+
+    document.getElementById(
+        "skillSet"
+    ).value = record.skillSet;
+
+
+    document.getElementById(
+        "topic"
+    ).value = record.topic;
+
+
+    document.getElementById(
+        "activity"
+    ).value = record.activity;
+
+
+    document.getElementById(
+        "startDate"
+    ).value = record.startDate;
+
+
+    document.getElementById(
+        "days"
+    ).value = record.days;
+
+
+    editingId = id;
+
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+    });
+
+}
+
+
+/* DELETE */
+
+function deleteRecord(id) {
+
+    const record =
+        records.find(
+            r => r.id === id
+        );
+
+
+    if (!record) {
+        return;
+    }
+
+
+    const confirmation =
+        confirm(
+            "Delete the record of " +
+            record.name +
+            "?"
+        );
+
+
+    if (!confirmation) {
+        return;
+    }
+
+
+    records =
+        records.filter(
+            r => r.id !== id
+        );
+
+
+    saveData();
+
+    displayRecords();
+
+}
+
+
+/* CLEAR FORM */
+
+function clearForm() {
+
+    document.getElementById(
+        "name"
+    ).value = "";
+
+
+    document.getElementById(
+        "skillSet"
+    ).value = "";
+
+
+    document.getElementById(
+        "topic"
+    ).value = "";
+
+
+    document.getElementById(
+        "activity"
+    ).value = "";
+
+
+    document.getElementById(
+        "startDate"
+    ).value = "";
+
+
+    document.getElementById(
+        "days"
+    ).value = "";
+
+
+    editingId = null;
+
+}
+
+
+/* DASHBOARD */
+
+function updateDashboard() {
+
+    let pending = 0;
+
+    let ongoing = 0;
+
+    let overdue = 0;
+
+
+    records.forEach(record => {
+
+        const status =
+            getStatus(record);
+
+
+        const remaining =
+            getRemainingDays(record);
+
+
+        if (status === "Overdue") {
+
+            overdue++;
+
+        }
+
+        else if (remaining > 0) {
+
+            ongoing++;
+
+        }
+
+        else {
+
+            pending++;
+
+        }
+
+    });
+
+
+    document.getElementById(
+        "totalRecords"
+    ).textContent =
+        records.length;
+
+
+    document.getElementById(
+        "pendingRecords"
+    ).textContent =
+        pending;
+
+
+    document.getElementById(
+        "ongoingRecords"
+    ).textContent =
+        ongoing;
+
+
+    document.getElementById(
+        "overdueRecords"
+    ).textContent =
+        overdue;
+
+}
+
+
+/* START */
+
+displayRecords();
+
+</script>
+
+</body>
+</html>
