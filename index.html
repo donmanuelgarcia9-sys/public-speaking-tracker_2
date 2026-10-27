@@ -1207,6 +1207,24 @@ function updateDashboard() {
 
 displayRecords();
 
+    <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js";
+    import { getFirestore } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyAuig3D3xhoSyJrAdkAoS2eoZ9WxIBvah4",
+        authDomain: "public-speaking-tracker-3eccf.firebaseapp.com",
+        projectId: "public-speaking-tracker-3eccf",
+        storageBucket: "public-speaking-tracker-3eccf.firebasestorage.app",
+        messagingSenderId: "639365205109",
+        appId: "1:639365205109:web:6226114ed38895d5bb3c3c"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    
 </script>
 
 </body>
