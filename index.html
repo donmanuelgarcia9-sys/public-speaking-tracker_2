@@ -272,6 +272,29 @@
 </head>
 
 <body>
+    <div id="loginScreen">
+    <h2>Public Speaking Tracker</h2>
+
+    <p>Please login to continue</p>
+
+    <input
+        type="email"
+        id="loginEmail"
+        placeholder="Email"
+    >
+
+    <input
+        type="password"
+        id="loginPassword"
+        placeholder="Password"
+    >
+
+    <button id="loginButton">
+        Login
+    </button>
+
+    <p id="loginMessage"></p>
+</div>
 
 <header>
 
@@ -1209,7 +1232,7 @@ displayRecords();
 
     <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
-    import { getAuth } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js";
     import { getFirestore } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -1224,6 +1247,38 @@ displayRecords();
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
+
+    document.getElementById("loginButton").addEventListener("click", async () => {
+
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value;
+
+    const message = document.getElementById("loginMessage");
+
+    if (!email || !password) {
+        message.textContent = "Please enter your email and password.";
+        return;
+    }
+
+    try {
+
+        await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
+
+        message.textContent = "Login successful!";
+
+    } catch (error) {
+
+        message.textContent =
+            "Login failed. Please check your email and password.";
+
+        console.error(error);
+    }
+
+});
     
 </script>
 
