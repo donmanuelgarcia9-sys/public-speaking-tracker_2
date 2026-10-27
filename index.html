@@ -289,7 +289,7 @@
         placeholder="Password"
     >
 
-    <button id="loginButton">
+   <button type="button" id="loginButton">
         Login
     </button>
 
@@ -1248,7 +1248,7 @@ displayRecords();
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    document.getElementById("loginButton").addEventListener("click", async () => {
+    document.getElementById("loginButton").onclick = async function() {
 
     const email = document.getElementById("loginEmail").value.trim();
     const password = document.getElementById("loginPassword").value;
@@ -1278,7 +1278,7 @@ displayRecords();
         console.error(error);
     }
 
-});
+};
     
 </script>
 
